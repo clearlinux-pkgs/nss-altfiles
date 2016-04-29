@@ -4,7 +4,7 @@
 #
 Name     : nss-altfiles
 Version  : 2.19.2
-Release  : 11
+Release  : 12
 URL      : https://github.com/aperezdc/nss-altfiles/archive/v2.19.2.tar.gz
 Source0  : https://github.com/aperezdc/nss-altfiles/archive/v2.19.2.tar.gz
 Summary  : No detailed summary available
