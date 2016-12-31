@@ -4,13 +4,19 @@
 #
 Name     : nss-altfiles
 Version  : 2.19.4
-Release  : 16
+Release  : 17
 URL      : https://github.com/aperezdc/nss-altfiles/archive/v2.19.4.tar.gz
 Source0  : https://github.com/aperezdc/nss-altfiles/archive/v2.19.4.tar.gz
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : LGPL-2.1
 Requires: nss-altfiles-lib
+BuildRequires : gcc-dev32
+BuildRequires : gcc-libgcc32
+BuildRequires : gcc-libstdc++32
+BuildRequires : glibc-dev32
+BuildRequires : glibc-libc32
+Patch1: build.patch
 
 %description
 NSS altfiles module
@@ -25,18 +31,48 @@ Group: Libraries
 lib components for the nss-altfiles package.
 
 
+%package lib32
+Summary: lib32 components for the nss-altfiles package.
+Group: Default
+
+%description lib32
+lib32 components for the nss-altfiles package.
+
+
 %prep
 %setup -q -n nss-altfiles-2.19.4
+%patch1 -p1
+pushd ..
+cp -a nss-altfiles-2.19.4 build32
+popd
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1483216104
+export SOURCE_DATE_EPOCH=1483216316
 %configure --disable-static --datadir=/usr/share/defaults/etc \
 --with-types=all
 make V=1  %{?_smp_mflags}
 
+pushd ../build32/
+export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+export CFLAGS="$CFLAGS -m32"
+export CXXFLAGS="$CXXFLAGS -m32"
+export LDFLAGS="$LDFLAGS -m32"
+%configure --disable-static --datadir=/usr/share/defaults/etc \
+--with-types=all  --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
+make V=1  %{?_smp_mflags}
+popd
 %install
 rm -rf %{buildroot}
+pushd ../build32/
+%make_install32
+if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
+then
+pushd %{buildroot}/usr/lib32/pkgconfig
+for i in *.pc ; do ln -s $i 32$i ; done
+popd
+fi
+popd
 %make_install
 
 %files
@@ -45,3 +81,7 @@ rm -rf %{buildroot}
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libnss_altfiles.so.2
+
+%files lib32
+%defattr(-,root,root,-)
+/usr/lib32/libnss_altfiles.so.2

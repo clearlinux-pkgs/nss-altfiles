@@ -1,0 +1,11 @@
+--- nss-altfiles-2.19.4/Makefile~	2016-09-11 17:33:53.000000000 +0000
++++ nss-altfiles-2.19.4/Makefile	2016-12-31 20:31:03.743770767 +0000
+@@ -52,7 +52,7 @@
+ src/nss_altfiles/files-hosts.o: src/resolv/mapv4v6addr.h  src/resolv/res_hconf.h
+ 
+ nss-altfiles-config: src/main.o
+-	$(CC) -o $@ $^
++	$(CC) $(LDFLAGS) -o $@ $^
+ 
+ clean:
+ 	find src -name '*.o' -delete
