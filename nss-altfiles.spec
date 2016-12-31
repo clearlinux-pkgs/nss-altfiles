@@ -4,7 +4,7 @@
 #
 Name     : nss-altfiles
 Version  : 2.19.4
-Release  : 15
+Release  : 16
 URL      : https://github.com/aperezdc/nss-altfiles/archive/v2.19.4.tar.gz
 Source0  : https://github.com/aperezdc/nss-altfiles/archive/v2.19.4.tar.gz
 Summary  : No detailed summary available
@@ -30,6 +30,7 @@ lib components for the nss-altfiles package.
 
 %build
 export LANG=C
+export SOURCE_DATE_EPOCH=1483216104
 %configure --disable-static --datadir=/usr/share/defaults/etc \
 --with-types=all
 make V=1  %{?_smp_mflags}
@@ -43,4 +44,4 @@ rm -rf %{buildroot}
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/*.so.*
+/usr/lib64/libnss_altfiles.so.2
