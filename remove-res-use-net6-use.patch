@@ -1,0 +1,32 @@
+--- a/src/nss_altfiles/files-hosts.c	2019-10-01 10:22:42.522797061 -0700
++++ b/src/nss_altfiles/files-hosts.c	2019-10-01 10:26:58.776137509 -0700
+@@ -97,9 +97,8 @@
+    STRING_FIELD (result->h_name, isspace, 1);
+  })
+ 
+-#define EXTRA_ARGS_VALUE \
+-  , ((_res.options & RES_USE_INET6) ? AF_INET6 : AF_INET),		      \
+-  ((_res.options & RES_USE_INET6) ? AI_V4MAPPED : 0)
++#define EXTRA_ARGS_VALUE      \
++  , AF_INET, 0
+ #include "files-XXX.c"
+ #undef EXTRA_ARGS_VALUE
+ 
+@@ -132,7 +131,7 @@
+     {
+       /* XXX Is using _res to determine whether we want to convert IPv4
+          addresses to IPv6 addresses really the right thing to do?  */
+-      int flags = ((_res.options & RES_USE_INET6) ? AI_V4MAPPED : 0);
++      int flags = 0;
+ 
+       while ((status = internal_getent (stream, result, buffer, buflen, errnop,
+ 					herrnop, af, flags))
+@@ -351,7 +350,7 @@
+ 			    char *buffer, size_t buflen, int *errnop,
+ 			    int *herrnop)
+ {
+-  int af = ((_res.options & RES_USE_INET6) ? AF_INET6 : AF_INET);
++  int af = AF_INET;
+ 
+   return ALTFILES_SYMBOL1(_gethostbyname3_r) (name, af, result, buffer, buflen,
+ 				      errnop, herrnop, NULL, NULL);
