@@ -4,7 +4,7 @@
 #
 Name     : nss-altfiles
 Version  : 2.23.0
-Release  : 24
+Release  : 25
 URL      : https://github.com/aperezdc/nss-altfiles/archive/v2.23.0.tar.gz
 Source0  : https://github.com/aperezdc/nss-altfiles/archive/v2.23.0.tar.gz
 Summary  : No detailed summary available
@@ -53,6 +53,7 @@ license components for the nss-altfiles package.
 
 %prep
 %setup -q -n nss-altfiles-2.23.0
+cd %{_builddir}/nss-altfiles-2.23.0
 %patch1 -p1
 %patch2 -p1
 pushd ..
@@ -64,14 +65,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1569952074
+export SOURCE_DATE_EPOCH=1605555430
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
 export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
 export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 %configure --disable-static --datadir=/usr/share/defaults/etc \
 --with-types=all
@@ -88,10 +89,10 @@ export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32 -mstackrealign"
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1569952074
+export SOURCE_DATE_EPOCH=1605555430
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/nss-altfiles
-cp COPYING %{buildroot}/usr/share/package-licenses/nss-altfiles/COPYING
+cp %{_builddir}/nss-altfiles-2.23.0/COPYING %{buildroot}/usr/share/package-licenses/nss-altfiles/de286744d1c4c25dda24eff0d74f9dda45573722
 pushd ../build32/
 %make_install32
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
@@ -116,4 +117,4 @@ popd
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/nss-altfiles/COPYING
+/usr/share/package-licenses/nss-altfiles/de286744d1c4c25dda24eff0d74f9dda45573722
