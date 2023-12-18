@@ -4,7 +4,7 @@
 #
 Name     : nss-altfiles
 Version  : 2.23.0
-Release  : 43
+Release  : 44
 URL      : https://github.com/aperezdc/nss-altfiles/archive/v2.23.0.tar.gz
 Source0  : https://github.com/aperezdc/nss-altfiles/archive/v2.23.0.tar.gz
 Summary  : No detailed summary available
